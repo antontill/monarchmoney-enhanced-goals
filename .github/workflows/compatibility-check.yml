@@ -15,8 +15,8 @@ env:
 
 jobs:
   field-completeness:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    runs-on: ubicloud-standard-2
     name: Check Field Completeness
 
     steps:
@@ -112,8 +112,8 @@ jobs:
           "
 
   response-structure:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    runs-on: ubicloud-standard-2
     name: Check Response Structure
 
     steps:
@@ -172,8 +172,8 @@ jobs:
           "
 
   create-issue-on-failure:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    runs-on: ubicloud-standard-2
     name: Create Issue on Compatibility Failure
     needs: [field-completeness, response-structure]
     if: failure() && github.event_name == 'schedule'

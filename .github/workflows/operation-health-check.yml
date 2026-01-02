@@ -17,8 +17,8 @@ env:
 
 jobs:
   operation-health:
-    timeout-minutes: 3
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    runs-on: ubicloud-standard-2
     name: Test GraphQL Operation Health
 
     steps:

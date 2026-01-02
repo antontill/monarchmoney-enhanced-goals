@@ -8,8 +8,8 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 8
-    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    runs-on: ubicloud-standard-2
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]

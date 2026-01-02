@@ -7,9 +7,9 @@ on:
 
 jobs:
   publish:
-    timeout-minutes: 12
-    runs-on: ubuntu-latest
-    
+    timeout-minutes: 10
+    runs-on: ubicloud-standard-2
+
     steps:
     - uses: actions/checkout@v4
     
