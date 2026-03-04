@@ -1847,30 +1847,28 @@ class MonarchMoney(object):
             graphql_query=query,
         )
 
-async def contribute_to_savings_goal(
-    self,
-    goal_id: str,
-    account_id: str,
-    amount: float,
-    date: str = None,
-    include_in_budget: bool = True,
-) -> Dict[str, Any]:
-    """
-    Contribute funds to a savings goal (Goals 3.0).
-    
-    :param goal_id: The ID of the savings goal.
-    :param account_id: The ID of the account to pull funds from.
-    :param amount: Dollar amount to contribute.
-    :param date: Date of contribution in YYYY-MM-DD format (defaults to today).
-    :param include_in_budget: Whether to reflect this in the budget (default True).
-    """
-    if date is None:
-        from datetime import date as dt
-        date = dt.today().strftime("%Y-%m-%d")
+    async def contribute_to_savings_goal(
+        self,
+        goal_id: str,
+        account_id: str,
+        amount: float,
+        contribution_date: str = None,
+        include_in_budget: bool = True,
+    ) -> Dict[str, Any]:
+        """
+        Contribute funds to a savings goal (Goals 3.0).
 
-    return await self.gql_call(
-        operation="Common_ContributeToSavingsGoal",
-        graphql_query="""
+        :param goal_id: The ID of the savings goal.
+        :param account_id: The ID of the account to pull funds from.
+        :param amount: Dollar amount to contribute.
+        :param contribution_date: Date in YYYY-MM-DD format (defaults to today).
+        :param include_in_budget: Whether to reflect this in the budget (default True).
+        """
+        if contribution_date is None:
+            contribution_date = date.today().strftime("%Y-%m-%d")
+
+        query = gql(
+            """
             mutation Common_ContributeToSavingsGoal($input: CreateSavingsGoalContributionInput!) {
               createSavingsGoalContribution(input: $input) {
                 userNotice
@@ -1894,17 +1892,22 @@ async def contribute_to_savings_goal(
                 __typename
               }
             }
-        """,
-        variables={
-            "input": {
-                "id": goal_id,
-                "amount": amount,
-                "accountId": account_id,
-                "date": date,
-                "includeInBudget": include_in_budget,
-            }
-        },
-    )    
+            """
+        )
+
+        return await self.gql_call(
+            operation="Common_ContributeToSavingsGoal",
+            graphql_query=query,
+            variables={
+                "input": {
+                    "id": goal_id,
+                    "amount": amount,
+                    "accountId": account_id,
+                    "date": contribution_date,
+                    "includeInBudget": include_in_budget,
+                }
+            },
+        )
     async def create_goal(
         self,
         name: str,
