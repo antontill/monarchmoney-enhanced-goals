@@ -252,7 +252,6 @@ class GraphQLClient(BaseService):
                 url=MonarchMoneyEndpoints.getGraphQL(),
                 headers=self.client._headers,
                 timeout=self._connection_timeout,
-                connector=connector,
             )
 
             self._gql_client = Client(
